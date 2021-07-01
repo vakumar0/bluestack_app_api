@@ -8,8 +8,15 @@ exports.upComingCampaigns = (req, res, next) => {
     connection.query( queryString, (err, rows, fields) => {
         if(err) {
             throw err;
-        } else {    
-            console.log(moment(new Date()).format("YYYY-MM-DD hh:mm:ss") + ': function upComingCampaigns => start');
+        } else {                
+           // console.log(rows)
+            rows.map( data => {
+                let createdOn = moment(data.createdOn);
+                let currentDate = moment(new Date());
+                let days = createdOn.diff(currentDate, 'days');
+                data.estimatedTime = days + ' days to go';                
+            });
+            console.log(moment(new Date()).format("YYYY-MM-DD hh:mm:ss") + ': function upComingCampaigns => start');        
             res.send(rows);
         }
     });
@@ -23,7 +30,10 @@ exports.liveCampaigns = (req, res, next) => {
         if(err) {
             throw err;
         } else {    
-            console.log(moment(new Date()).format("YYYY-MM-DD hh:mm:ss") + ': function liveCampaigns => ended');
+            rows.map( data => {                
+                data.estimatedTime = 'Live!';                
+            });
+            console.log(moment(new Date()).format("YYYY-MM-DD hh:mm:ss") + ': function liveCampaigns => ended');            
             res.send(rows);
         }
     });
@@ -37,7 +47,13 @@ exports.pastCampaigns = (req, res, next) => {
         if(err) {
             throw err;
         } else {    
-            console.log("function pastCampaigns => ended");
+            rows.map( data => {
+                let createdOn = moment(data.createdOn);
+                let currentDate = moment(new Date());
+                let days = currentDate.diff(createdOn, 'days');
+                data.estimatedTime = days + ' days ago';                
+            });
+            console.log(moment(new Date()).format("YYYY-MM-DD hh:mm:ss") + ": function pastCampaigns => ended");
             res.send(rows);
         }
     });
