@@ -1,11 +1,14 @@
 {
-  "name": "bluestack_app_api",
+  "name": "bluestack-app",
   "version": "1.0.0",
   "description": "Manange Campaigns",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./bin/www"
   },
+  "keywords": [
+    "heroku"
+  ],
   "author": "Vaibhav Kumar",
   "license": "ISC",
   "dependencies": {
